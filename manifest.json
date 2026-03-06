@@ -1,10 +1,41 @@
+
 {
-"name" :"Hello Extensions",
-"description": "Helper extension",
-"version" : "1.0", 
-"manifest_version":3,
-"action": {
-	"default_popup": "hello.html",, 
-	"default_icon": "image.png"
-	}
+  "name": "Google Docs AI assistant",
+  "description": "Writing assistant for Google Docs using Clause API",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://docs.google.com/*",
+    "https://api.anthropic.com/*"
+  ], 
+  "background": {
+     "service_worker": "src/background/service-worker.js",
+     "type": "module"
+  },
+
+
+  "content_scripts": [
+    {
+      "matches": ["https://docs.google.com/document/*"],
+      "js": ["src/content/content.js"],  
+      "css": ["src/content/content.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": "src/images/image.png"
+  },
+
+
+  "web_accessible_resources": [
+    {
+      "resources": ["src/lib/google-docs-reader.js"],  
+      "matches": ["https://docs.google.com/*"]  
+    }
+  ]
 }
